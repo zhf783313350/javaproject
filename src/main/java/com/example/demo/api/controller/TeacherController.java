@@ -5,7 +5,6 @@ import com.example.demo.application.service.TeacherService;
 import com.example.demo.infrastructure.common.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Teacher Management", description = "APIs for managing teachers")
 @RestController
 @RequestMapping("/api/v1/teachers")
-@RequiredArgsConstructor
 public class TeacherController {
+
     private final TeacherService teacherService;
+
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
+
     @Operation(summary = "Get teacher list with pagination")
     @GetMapping
     public Result<Page<TeacherVO>> getTeachers(

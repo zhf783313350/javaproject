@@ -1,8 +1,5 @@
 package com.example.demo.infrastructure.exception;
 
-import lombok.Getter;
-
-@Getter
 public class BusinessException extends RuntimeException {
     private final Integer code;
 
@@ -14,5 +11,9 @@ public class BusinessException extends RuntimeException {
     public BusinessException(Integer code, String message) {
         super(message);
         this.code = code;
+    }
+
+    public Integer getCode() {
+        return code;
     }
 }

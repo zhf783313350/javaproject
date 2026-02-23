@@ -1,16 +1,7 @@
 package com.example.demo.infrastructure.common;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Result<T> implements Serializable {
 
     private Integer code;
@@ -18,20 +9,53 @@ public class Result<T> implements Serializable {
     private T data;
     private Long timestamp;
 
+    public Result() {
+    }
+
+    public Result(Integer code, String message, T data, Long timestamp) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+        this.timestamp = timestamp;
+    }
+
     public static <T> Result<T> success(T data) {
-        return Result.<T>builder()
-                .code(200)
-                .message("Operation successful")
-                .data(data)
-                .timestamp(System.currentTimeMillis())
-                .build();
+        return new Result<>(200, "Operation successful", data, System.currentTimeMillis());
     }
 
     public static <T> Result<T> fail(Integer code, String message) {
-        return Result.<T>builder()
-                .code(code)
-                .message(message)
-                .timestamp(System.currentTimeMillis())
-                .build();
+        return new Result<>(code, message, null, System.currentTimeMillis());
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }
