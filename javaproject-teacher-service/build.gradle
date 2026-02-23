@@ -6,8 +6,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     runtimeOnly 'org.postgresql:postgresql'
     
-    // Spring Cloud
+    // Spring Cloud & Alibaba
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     
     // Swagger

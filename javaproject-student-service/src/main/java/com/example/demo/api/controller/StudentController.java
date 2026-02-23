@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentController {
 
     private final StudentService studentService;
+    private final com.example.demo.application.client.TeacherFeignClient teacherFeignClient;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService,
+            com.example.demo.application.client.TeacherFeignClient teacherFeignClient) {
         this.studentService = studentService;
+        this.teacherFeignClient = teacherFeignClient;
     }
 
     @Operation(summary = "Get student list with pagination")
@@ -30,5 +33,15 @@ public class StudentController {
             @RequestParam(defaultValue = "10") int pageSize) {
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         return Result.success(studentService.getStudentPage(pageable));
+    }
+
+    @Operation(summary = "Get the teacher assigned to the student (Demonstrates OpenFeign RPC)")
+    @GetMapping("/{id}/teacher")
+    public Result<com.example.demo.api.vo.TeacherVO> getStudentTeacher(
+            @org.springframework.web.bind.annotation.PathVariable Integer id) {
+        // Here we simulate getting a teacher ID assigned to this student
+        Integer teacherId = id + 10;
+        // Make an HTTP RPC call to the teacher-service via Nacos + OpenFeign
+        return teacherFeignClient.getTeacherById(teacherId);
     }
 }

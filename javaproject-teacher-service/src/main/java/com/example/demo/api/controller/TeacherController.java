@@ -31,4 +31,24 @@ public class TeacherController {
         PageRequest pageable = PageRequest.of(page - 1, pageSize);
         return Result.success(teacherService.getTeacherPage(pageable));
     }
+
+    @Operation(summary = "Get a single teacher by ID for RPC calls")
+    @GetMapping("/{id}")
+    @com.alibaba.csp.sentinel.annotation.SentinelResource(value = "getTeacherById", blockHandler = "handleTeacherBlock")
+    public Result<TeacherVO> getTeacherById(@org.springframework.web.bind.annotation.PathVariable Integer id) {
+        // Return a mock/fetched teacher for demonstration
+        TeacherVO mockTeacher = new TeacherVO();
+        mockTeacher.setId(id);
+        mockTeacher.setName("Master Teacher");
+        mockTeacher.setAge(45);
+        return Result.success(mockTeacher);
+    }
+
+    // Sentinel Block/Fallback Handler
+    public Result<TeacherVO> handleTeacherBlock(Integer id, com.alibaba.csp.sentinel.slots.block.BlockException ex) {
+        TeacherVO fallbackTeacher = new TeacherVO();
+        fallbackTeacher.setId(id);
+        fallbackTeacher.setName("System Busy - Fallback Teacher");
+        return Result.fail(503, "High traffic detected. Sentinel Circuit Breaker Activated.");
+    }
 }
