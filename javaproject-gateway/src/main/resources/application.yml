@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: student_route
+          uri: lb://student-service
+          predicates:
+            - Path=/api/v1/students/**
+        - id: teacher_route
+          uri: lb://teacher-service
+          predicates:
+            - Path=/api/v1/teachers/**
