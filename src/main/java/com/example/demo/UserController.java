@@ -1,8 +1,6 @@
 package com.example.demo;
-
 import java.util.HashMap;
-import java.util.Map;
-
+import java.util.Map; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,16 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 public class UserController {
-
     // GET /hello
     @GetMapping("/hello")
     public String hello() {
         return "Hello, Spring Boot!";
     }
-
     // POST /user 接收 JSON 并返回 JSON
     @PostMapping("/user")
     public Map<String, Object> createUser(@RequestBody Map<String, Object> user) {
@@ -31,7 +26,6 @@ public class UserController {
     }
     @Autowired
     private StudentRepository studentRepository;
-
     // 查询学生列表
     @GetMapping("/students")
     public Map<String, Object> getStudents(
@@ -47,13 +41,11 @@ public class UserController {
         response.put("pageSize", pageSize);
         response.put("data", studentPage.getContent());
         response.put("totalElements", studentPage.getTotalElements());
-        response.put("totalPages", studentPage.getTotalPages());
+        response.put("totalPages", studentPage.getTotalPages());   
         return response;
     }
-
     @Autowired
     private TeacherRepository teacherRepository;
-
     @GetMapping("/teachers")
     public Map<String, Object> getTeachers(
             @RequestParam(defaultValue = "1") int page,
